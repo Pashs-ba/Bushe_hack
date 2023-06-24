@@ -29,8 +29,8 @@ export const login = (data: TelegramUserData): Promise<AxiosResponse<APITokens>>
   return API.noAuthAxios.post(AuthAPIURLS.LOGIN, data)
 }
 
-export const logout = (): Promise<AxiosResponse> => {
-  return API.axios.post(AuthAPIURLS.LOGOUT)
+export const logout = (refresh_token: string): Promise<AxiosResponse> => {
+  return API.axios.post(AuthAPIURLS.LOGOUT, { refresh: refresh_token })
 }
 
 export const currentUser = (): Promise<AxiosResponse<APIUser>> => {

@@ -34,7 +34,8 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function logoutAction() {
-    logout().then(() => {
+    if (!refresh_token.value) return
+    logout(refresh_token.value).then(() => {
       clearLocalData()
       user.value = null
       router.push('/')
