@@ -11,9 +11,7 @@ class OrderSerializer(ModelSerializer):
                   "start_cook_time", "end_cook_time", "start_delivery_time", "end_delivery_time", "delivery_man_id"]
 
 
-class OrderViewSet(ModelViewSet):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+
 
 
 class KitchenSerializer(ModelSerializer):
@@ -22,9 +20,7 @@ class KitchenSerializer(ModelSerializer):
         fields = ["point_id", "geotag"]
 
 
-class KitchenViewSet(ModelViewSet):
-    queryset = Kitchen.objects.all()
-    serializer_class = KitchenSerializer
+
 
 
 class DeliveryManSerializer(ModelSerializer):
@@ -33,6 +29,4 @@ class DeliveryManSerializer(ModelSerializer):
         fields = ["delivery_man_id", "status"]
 
 
-class DeliveryManViewSet(ModelViewSet):
-    queryset = DeliveryMan.objects.all()
-    serializer_class = DeliveryManSerializer
+
