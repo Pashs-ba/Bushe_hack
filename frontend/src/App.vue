@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import {RouterLink, RouterView} from 'vue-router'
+import MainNav from "@/components/MainNav.vue";
 </script>
 
 <template>
-  <header>
-  </header>
-  <RouterView />
+  <main-nav/>
+  <RouterView/>
 </template>
 
 <style scoped>
