@@ -15,6 +15,12 @@ class TestCeleryView(APIView):
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    def update(self, request, *args, **kwargs):
+        item = self.get_object()
+        serializer = self.get_serializer(item, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 
 
