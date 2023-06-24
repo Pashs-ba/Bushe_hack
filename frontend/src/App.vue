@@ -4,7 +4,7 @@ import MainNav from "@/components/MainNav.vue";
 </script>
 
 <template>
-  <main-nav/>
+<!--  <main-nav/>-->
   <RouterView/>
 </template>
 
