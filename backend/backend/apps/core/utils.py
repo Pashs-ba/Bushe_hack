@@ -1,6 +1,6 @@
 from django.forms.fields import MultipleChoiceField
-
 from django_filters.filters import Filter
+from enum import Enum
 
 
 class MultipleValueField(MultipleChoiceField):
@@ -29,3 +29,30 @@ class MultipleValueFilter(Filter):
         """Initialize `MultipleValueField` with custom `field_class`."""
         kwargs.setdefault("lookup_expr", "in")
         super().__init__(*args, field_class=field_class, **kwargs)
+
+
+class OrderStatus(Enum):
+    opened = 1
+    cooking = 2
+    on_the_way = 3
+    closed = 4
+
+
+class DeliveryManStatus(Enum):
+    ready = 1
+    busy = 2
+    at_home = 3
+
+
+ORDER_TYPE_CHOICES = (
+    (OrderStatus.opened.value, "Открыт"),
+    (OrderStatus.cooking.value, "Готовится"),
+    (OrderStatus.on_the_way.value, "В пути"),
+    (OrderStatus.closed.value, "Закрыт"),
+)
+
+DELIVERYMAN_TYPE_CHOICES = (
+    (DeliveryManStatus.ready.value, "Свободен"),
+    (DeliveryManStatus.busy.value, "В работе"),
+    (DeliveryManStatus.at_home.value, "Дома"),
+)
