@@ -8,7 +8,7 @@ import { onMounted, ref } from 'vue'
 const telegramRef = ref<null | HTMLElement>(null)
 
 const telegramBotName = import.meta.env.VITE_APP_TELEGRAM_BOT_NAME
-const apiCallbackURL = import.meta.env.VITE_APP_TELEGRAM_AUTH_CALLBACK
+const apiCallbackURL = import.meta.env.VITE_APP_TELEGRAM_AUTH_CALLBACK_URL
 
 onMounted(() => {
   const script = document.createElement('script')
