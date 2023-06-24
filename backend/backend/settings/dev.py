@@ -20,6 +20,8 @@ SECRET_KEY = config["Django"]["SECRET_KEY"]
 DEBUG = config["Django"]["DEBUG"]
 ALLOWED_HOSTS = ["*"]
 
+TELEGRAM_BOT_TOKEN = config["Telegram"]["BOT_TOKEN"]
+
 
 # Application definition
 
@@ -157,7 +159,7 @@ REST_FRAMEWORK = {
 JWT_AUTH = {
     "TOKEN_TYPE_CLAIM": "rest_framework_simplejwt.tokens.AccessToken",
     "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=14),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": True,

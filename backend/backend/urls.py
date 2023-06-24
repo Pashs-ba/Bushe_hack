@@ -11,6 +11,7 @@ urlpatterns = [
     path("api/auth/", include("backend.apps.authentication.urls")),
     path("api/auth/", include("djoser.urls")),
     path("api/auth/", include("djoser.urls.jwt")),
+    path("admin/", admin.site.urls)
 ]
 
 if settings.DEBUG:

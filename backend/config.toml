@@ -1,4 +1,6 @@
 [Django]
-SECRET_KEY = "django-insecure-38h&_=(589$@(7y$$dy+u#iv4%pr(_wizb&36c8rj(p3m+vlw^"
 DEBUG = true
+SECRET_KEY = "django-insecure-38h&_=(589$@(7y$$dy+u#iv4%pr(_wizb&36c8rj(p3m+vlw^"
 
+[Telegram]
+BOT_TOKEN = "6261650130:AAGPnw3KLxNL6Asplkibqtq3b-EVZNCqkpg"

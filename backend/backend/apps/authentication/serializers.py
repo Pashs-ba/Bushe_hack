@@ -26,9 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.User
-        fields = [
-            "*",
-        ]
+        fields = "__all__"
         read_only_fields = [
             "id",
             "account_type",

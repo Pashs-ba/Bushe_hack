@@ -2,7 +2,7 @@ import django_filters
 import requests
 from django.conf import settings
 from django.urls import reverse
-from rest_framework import generics, permissions, response, status
+from rest_framework import generics, permissions, response, status, serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
@@ -14,7 +14,7 @@ from .serializers import (
     UserBulkDeleteSerializer,
     UserSerializer,
 )
-from .utils import ACCOUNT_TYPE_CHOICES
+from .utils import ACCOUNT_TYPE_CHOICES, UserTypes, verify_telegram_authentication
 from backend.permissions import IsAdminPermission
 
 
@@ -116,5 +116,48 @@ class LogoutView(APIView):
         return Response(status=status.HTTP_205_RESET_CONTENT)
 
 
-
 # TODO: CreateAdminAPIView
+
+
+class CreateUserAPIView(generics.CreateAPIView):
+    """API view for creating new users."""
+
+    class CreateUserSerializer(serializers.ModelSerializer):
+        hash = serializers.CharField()
+        auth_date = serializers.IntegerField()
+        id = serializers.IntegerField()
+
+        class Meta:
+            model = User
+            fields = ["username", "first_name", "last_name",
+                      "photo_url", "id", "auth_date", "hash"]
+            extra_kwargs = {"hash": {"write_only": True}, "auth_date": {
+                "write_only": True}, "id": {"write_only": True}}
+
+        def validate(self, data):
+            verify_telegram_authentication(data)
+            return data
+
+        def create(self, validated_data: dict):
+            """Create a new student."""
+            user = User.objects.create(
+                account_type=UserTypes.COURIER.value,
+                username=validated_data["username"],
+                last_name=validated_data["last_name"],
+                first_name=validated_data["first_name"],
+                photo_url=validated_data["photo_url"],
+                telegram_id=validated_data["id"]
+            )
+            user.set_password("")
+            user.save()
+            return user
+
+    queryset = User.objects.all()
+    serializer_class = CreateUserSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+        instance_serializer = UserSerializer(instance)
+        return Response(instance_serializer.data)
