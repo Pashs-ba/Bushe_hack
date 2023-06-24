@@ -72,7 +72,7 @@ def calculate_distance(db_name, api_key, tablename='addresses', column_name='add
         #calc distance
         distance = data['features'][0]['propereties']['segments'][0]['distance']/1000
 
-        #update write
-        cursor.execute(f"UPDATE {table_name} SET distance = {distance} WHERE rowid = {rowid}")
-    conn.commit()
+        
+    
     conn.close()
+    return distance
