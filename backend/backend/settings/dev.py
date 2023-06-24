@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Apps
     "backend.apps.authentication.apps.AuthConfig",
+    "backend.apps.core.apps.CoreConfig",
     # Third-party apps
     # "whitenoise.runserver_nostatic",
     "corsheaders",
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "sorl_thumbnail_serializer",
     "sorl.thumbnail",
+
     # Auth
     "djoser",
 ]
