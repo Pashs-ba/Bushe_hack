@@ -19,17 +19,17 @@ def get_nearest_rest(self, address, api_key):
         else:
             return 0 #eror while geocoding
         
-        except Exception as e:
-            return str(e)
+    except Exception as e:
+        return str(e)
         
-        try:
-            search_request = f"https://search-maps.yandex.ru/v1/?apikey={api_key}&text=буше&ll={lon},{lat}&langru_RU&resylts=1"
-            responce = requests.get(search_request)
-            if responce.status_code == 200:
-                json_responce = responce.json()
-                bushe_address = json_responce["features"][0]["properties"]["name"]
-                return bushe_address
-            else:
-                return responce.status_code #error while finding //TODO: replace with num in PROD!!!
-            except Exception as e:
-                return str(e)
+    try:
+        search_request = f"https://search-maps.yandex.ru/v1/?apikey={api_key}&text=буше&ll={lon},{lat}&langru_RU&resylts=1"
+        responce = requests.get(search_request)
+        if responce.status_code == 200:
+            json_responce = responce.json()
+            bushe_address = json_responce["features"][0]["properties"]["name"]
+            return bushe_address
+        else:
+            return responce.status_code #error while finding //TODO: replace with num in PROD!!!
+    except Exception as e:
+        return str(e)
