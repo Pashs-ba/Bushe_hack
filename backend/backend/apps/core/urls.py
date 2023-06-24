@@ -5,9 +5,9 @@ from .views import TestCeleryView, OrderViewSet, KitchenViewSet, DeliveryManView
 
 
 router = SimpleRouter(trailing_slash=False)
-router.register("orders", OrderViewSet)
-router.register("kitchens", KitchenViewSet)
-router.register("delivery_man_id", DeliveryManViewSet)
+# router.register("orders", OrderViewSet)
+# router.register("kitchens", KitchenViewSet)
+# router.register("delivery_man_id", DeliveryManViewSet)
 
 urlpatterns = [
     # path("", include("backend.apps.core.config")),

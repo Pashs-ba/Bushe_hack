@@ -12,22 +12,13 @@ class OrderSerializer(ModelSerializer):
                   "start_cook_time", "end_cook_time", "start_delivery_time", "end_delivery_time", "delivery_man_id"]
 
 
-
-
-
 class KitchenSerializer(ModelSerializer):
     class Meta:
         model = Kitchen
         fields = ["point_id", "geotag"]
 
 
-
-
-
 class DeliveryManSerializer(ModelSerializer):
     class Meta:
         model = DeliveryMan
         fields = ["delivery_man_id", "status"]
-
-
-

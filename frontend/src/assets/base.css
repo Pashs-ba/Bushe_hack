@@ -19,7 +19,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: Bushe;
+  font-family: Inter;
 }
 
 html {
@@ -96,4 +96,8 @@ html {
 
 .form-control:focus {
   background-color: #212932;
+}
+
+.bushe-font {
+  font-family: Bushe;
 }
