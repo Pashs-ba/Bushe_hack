@@ -20,6 +20,8 @@ SECRET_KEY = config["Django"]["SECRET_KEY"]
 DEBUG = config["Django"]["DEBUG"]
 ALLOWED_HOSTS = ["*"]
 
+TELEGRAM_BOT_TOKEN = config["Telegram"]["BOT_TOKEN"]
+
 
 # Application definition
 
@@ -33,6 +35,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Apps
     "backend.apps.authentication.apps.AuthConfig",
+    "backend.apps.core.apps.CoreConfig",
     # Third-party apps
     # "whitenoise.runserver_nostatic",
     "corsheaders",
@@ -43,6 +46,7 @@ INSTALLED_APPS = [
     "sorl.thumbnail",
     # Auth
     "djoser",
+    "celery"
 ]
 
 SITE_ID = 1
@@ -157,7 +161,7 @@ REST_FRAMEWORK = {
 JWT_AUTH = {
     "TOKEN_TYPE_CLAIM": "rest_framework_simplejwt.tokens.AccessToken",
     "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=14),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": True,
@@ -179,3 +183,6 @@ DJOSER = {
 
 PROTOCOL = "http"
 DOMAIN = "localhost:8000"
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"

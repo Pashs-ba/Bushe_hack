@@ -6,7 +6,7 @@ class UserManager(BaseUserManager):
 
     use_in_migrations = True
 
-    def _create_user(self,username, password: str, **extra_fields):
+    def _create_user(self, username, password: str, **extra_fields):
         user = self.model(username=username, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)

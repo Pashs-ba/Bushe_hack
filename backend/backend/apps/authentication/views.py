@@ -1,8 +1,6 @@
 import django_filters
-import requests
 from django.conf import settings
-from django.urls import reverse
-from rest_framework import generics, permissions, response, status
+from rest_framework import generics, permissions, response, status, views
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
@@ -13,24 +11,11 @@ from .serializers import (
     RefreshTokenSerializer,
     UserBulkDeleteSerializer,
     UserSerializer,
+    TelegramAuthDataSerializer,
+    CreateUserSerializer
 )
 from .utils import ACCOUNT_TYPE_CHOICES
 from backend.permissions import IsAdminPermission
-
-
-# TODO: Replace ActivateUserAPIView with frontend page
-
-class ActivateUserAPIView(APIView):
-    """Activate user account."""
-
-    def get(self, request, uid, token):
-        """Activate user account."""
-        payload = {"uid": uid, "token": token}
-        url = "{0}://{1}{2}".format(settings.PROTOCOL, settings.DOMAIN, reverse("user-activation"))
-        response = requests.post(url, data=payload)
-        if response.status_code == 204:
-            return Response({"detail": "Account activated"}, status=status.HTTP_200_OK)
-        return Response(response.json())
 
 
 class ProfileView(generics.RetrieveAPIView):
@@ -41,6 +26,7 @@ class ProfileView(generics.RetrieveAPIView):
 
     def get_object(self):
         """Get current user."""
+        print("OKKKKK")
         return self.request.user
 
 
@@ -116,5 +102,30 @@ class LogoutView(APIView):
         return Response(status=status.HTTP_205_RESET_CONTENT)
 
 
+class LoginAPIView(views.APIView):
+    """APIView for user authentication."""
 
-# TODO: CreateAdminAPIView
+    def get_user(self, telegram_id: int):
+        try:
+            return User.objects.get(telegram_id=telegram_id)
+        except User.DoesNotExist:
+            return None
+
+    def post(self, request):
+        serializer = TelegramAuthDataSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        telegram_id = serializer.validated_data["id"]
+        user = self.get_user(telegram_id)
+        if user is None:  # Create a new user
+            serializer = CreateUserSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.save()
+
+        refresh = RefreshToken.for_user(user)
+        response_data = {
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        }
+
+        return Response(response_data, status.HTTP_200_OK)

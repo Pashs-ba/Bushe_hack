@@ -1,110 +1,23 @@
 from rest_framework import serializers
-from . import models
-from .utils import UserTypes
 
-
-# class StudentSerializer(serializers.ModelSerializer):
-#     """Serializer for `Student` model."""
-
-#     klass = KlassCompactSerializer()
-
-#     class Meta:
-#         model = models.Student
-#         exclude = ["account"]
-
-
-# class TeacherSerializer(serializers.ModelSerializer):
-#     """Serializer for `Teacher` model."""
-
-#     class Meta:
-#         model = models.Teacher
-#         exclude = ["account"]
+from .utils import UserTypes, verify_telegram_authentication
+from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for `User` model."""
 
     class Meta:
-        model = models.User
+        model = User
         fields = [
-            "*",
+            "account_type", "first_name", "last_name",
+            "username", "id", "photo_url", "is_active",
+            "last_login", "date_joined", "is_admin"
         ]
+
         read_only_fields = [
-            "id",
-            "account_type",
-            "is_superuser",
-            "is_staff",
-            "is_active",
+            "id", "account_type", "is_active", "username"
         ]
-
-
-# class CompactUserSerializer(serializers.ModelSerializer):
-#     """Serializer for `User` model."""
-
-#     class Meta:
-#         model = models.User
-#         fields = [
-#             "id",
-#             "email",
-#             "first_name",
-#             "last_name",
-#             "surname",
-#             "is_superuser",
-#             "is_staff",
-#             "account_type",
-#             "is_active",
-#             "last_login",
-#             "date_joined",
-#         ]
-#         read_only_fields = ["id"]
-
-
-# class StudentCreateSerializer(serializers.ModelSerializer):
-#     """Serializer for creating new student users."""
-
-#     class Meta:
-#         model = models.User
-#         fields = ["email", "first_name", "last_name", "surname", "password"]
-#         extra_kwargs = {"password": {"write_only": True}}
-
-#     def create(self, validated_data: dict):
-#         """Create a new student."""
-#         user = models.User.objects.create(
-#             account_type=UserTypes.STUDENT.value,
-#             surname=validated_data["surname"],
-#             first_name=validated_data["first_name"],
-#             last_name=validated_data["last_name"],
-#             email=validated_data["email"],
-#         )
-#         user.set_password(validated_data["password"])
-#         user.save()
-#         models.Student.objects.create(account=user)
-#         return user
-
-
-# class TeacherCreateSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = models.User
-#         fields = [
-#             "account_type",
-#             "email",
-#             "first_name",
-#             "second_name",
-#             "surname",
-#         ]
-#         extra_kwargs = {"password": {"write_only": True}}
-
-#     def create(self, validated_data):
-#         user = models.User.objects.create(
-#             account_type=validated_data["account_type"],
-#             surname=validated_data["surname"],
-#             first_name=validated_data["first_name"],
-#             second_name=validated_data["second_name"],
-#             email=validated_data["email"],
-#         )
-#         user.set_password(validated_data["password"])
-#         user.save()
-#         return user
 
 
 class UserBulkDeleteSerializer(serializers.Serializer):
@@ -113,3 +26,43 @@ class UserBulkDeleteSerializer(serializers.Serializer):
 
 class RefreshTokenSerializer(serializers.Serializer):
     refresh = serializers.CharField()
+
+
+class CreateUserSerializer(serializers.ModelSerializer):
+    """Serializer for authentication data received from Telegram."""
+
+    hash = serializers.CharField()
+    auth_date = serializers.IntegerField()
+    id = serializers.IntegerField()
+
+    class Meta:
+        model = User
+        fields = ["username", "first_name", "last_name",
+                  "photo_url", "id", "auth_date", "hash"]
+        extra_kwargs = {"hash": {"write_only": True}, "auth_date": {
+            "write_only": True}, "id": {"write_only": True}}
+
+    def validate(self, data):
+        verify_telegram_authentication(data)
+        return data
+
+    def create(self, validated_data: dict):
+        """Create a new student."""
+        user = User.objects.create(
+            account_type=UserTypes.COURIER.value,
+            username=validated_data["username"],
+            last_name=validated_data["last_name"],
+            first_name=validated_data["first_name"],
+            photo_url=validated_data["photo_url"],
+            telegram_id=validated_data["id"]
+        )
+        user.set_password("")
+        user.save()
+        return user
+
+
+class TelegramAuthDataSerializer(CreateUserSerializer):
+    username = serializers.CharField()
+
+    def validate_username(self, val):
+        return val
