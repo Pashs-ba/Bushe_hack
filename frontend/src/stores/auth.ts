@@ -1,38 +1,53 @@
-// export interface TelegramUserData {
-//   auth_date: number
-//   first_name: string
-//   hash: string
-//   id: number
-//   last_name?: string
-//   username: string
-//   photo_url?: string
-// }
-//
-// const readLocalUserData = (): TelegramUserData | null => {
-//   const userDataJSON = localStorage.getItem('tg-user')
-//   if (!userDataJSON) return null
-//   const userData = JSON.parse(userDataJSON) as TelegramUserData
-//   const isValid = checkAuthValidity(userData)
-//   if (!isValid) return null
-//   return userData
-// }
-//
-// export const useAuthStore = defineStore('auth', () => {
-//   const user = ref<TelegramUserData | null>(readLocalUserData())
-//
-//   const loggedIn = computed(() => user.value !== null)
-//
-//   function login(data: TelegramUserData) {
-//     user.value = data
-//     localStorage.setItem('tg-user', JSON.stringify(user.value))
-//     addMember(data)
-//   }
-//
-//   function logout() {
-//     localStorage.removeItem('tg-user')
-//     user.value = null
-//     router.push('/')
-//   }
-//
-//   return { user, loggedIn, login, logout }
-// })
+import { defineStore } from 'pinia'
+import { LocalData, clearLocalData, getLocalData, setLocalData } from './local'
+import { computed, ref } from 'vue'
+import router from '@/router'
+import {
+  login,
+  type TelegramUserData,
+  logout,
+  type APIUser,
+  currentUser
+} from '@/api/services/auth'
+
+export const useAuthStore = defineStore('auth', () => {
+  const access_token = ref<string | null>(getLocalData(LocalData.ACCESS_TOKEN))
+  const refresh_token = ref<string | null>(getLocalData(LocalData.REFRESH_TOKEN))
+  const user = ref<APIUser | null>(null)
+
+  const loggedIn = computed(() => user.value !== null)
+
+  function currentUserAction() {
+    currentUser().then((r) => {
+      user.value = r.data
+    })
+  }
+
+  function loginAction(data: TelegramUserData) {
+    login(data).then((response) => {
+      setLocalData(LocalData.ACCESS_TOKEN, response.data.access)
+      setLocalData(LocalData.REFRESH_TOKEN, response.data.refresh)
+      access_token.value = response.data.access
+      refresh_token.value = response.data.refresh
+      currentUserAction()
+    })
+  }
+
+  function logoutAction() {
+    logout().then(() => {
+      clearLocalData()
+      user.value = null
+      router.push('/')
+    })
+  }
+
+  return {
+    user,
+    loggedIn,
+    loginAction,
+    logoutAction,
+    access_token,
+    refresh_token,
+    currentUserAction
+  }
+})

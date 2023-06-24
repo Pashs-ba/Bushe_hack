@@ -1,7 +1,7 @@
 import axios, { AxiosError, type AxiosInstance, type InternalAxiosRequestConfig } from 'axios'
-import { getLocalData, LocalData, setLocalData } from './local'
-import router from '../router'
+import { getLocalData, LocalData, setLocalData } from '../stores/local'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
+import { useAuthStore } from '@/stores/auth'
 
 const BASE_URL = '/api/'
 
@@ -9,7 +9,7 @@ axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 
 enum APIURLS {
-  REFRESH_TOKEN = 'auth/jwt/refresh/'
+  REFRESH_TOKEN = 'auth/refresh'
 }
 
 export const instance = axios.create({
@@ -59,10 +59,9 @@ const refreshAuthLogic = (failedRequest: AxiosError) =>
       return Promise.resolve()
     })
     .catch((error) => {
-    //   store.dispatch(AuthActionTypes.LOGOUT).finally(() => {
-    //     router.push('/login')
-    //     return Promise.reject(error)
-    //   })
+      const authStore = useAuthStore()
+      authStore.logoutAction()
+      return Promise.reject(error)
     })
 
 createAuthRefreshInterceptor(instance, refreshAuthLogic)

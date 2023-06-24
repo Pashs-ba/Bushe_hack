@@ -11,7 +11,8 @@ from .serializers import (
     RefreshTokenSerializer,
     UserBulkDeleteSerializer,
     UserSerializer,
-    TelegramAuthDataSerializer
+    TelegramAuthDataSerializer,
+    CreateUserSerializer
 )
 from .utils import ACCOUNT_TYPE_CHOICES
 from backend.permissions import IsAdminPermission
@@ -25,6 +26,7 @@ class ProfileView(generics.RetrieveAPIView):
 
     def get_object(self):
         """Get current user."""
+        print("OKKKKK")
         return self.request.user
 
 
@@ -116,14 +118,11 @@ class LoginAPIView(views.APIView):
         telegram_id = serializer.validated_data["id"]
         user = self.get_user(telegram_id)
         if user is None:  # Create a new user
-            print("Creating a new user")
+            serializer = CreateUserSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
             user = serializer.save()
-        else:
-            print("User already exists")
-        print(user)
 
         refresh = RefreshToken.for_user(user)
-
         response_data = {
             "refresh": str(refresh),
             "access": str(refresh.access_token),

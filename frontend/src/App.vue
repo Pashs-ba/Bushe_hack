@@ -1,6 +1,15 @@
 <script setup lang="ts">
-import {RouterLink, RouterView} from 'vue-router'
-import MainNav from "@/components/MainNav.vue";
+import { RouterLink, RouterView } from 'vue-router'
+import MainNav from '@/components/MainNav.vue'
+import { onMounted } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+
+onMounted(() => {
+  const authStore = useAuthStore()
+  if (authStore.user === null) {
+    authStore.currentUserAction()
+  }
+})
 </script>
 
 <template>
