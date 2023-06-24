@@ -44,9 +44,9 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "sorl_thumbnail_serializer",
     "sorl.thumbnail",
-
     # Auth
     "djoser",
+    "celery"
 ]
 
 SITE_ID = 1
@@ -183,3 +183,6 @@ DJOSER = {
 
 PROTOCOL = "http"
 DOMAIN = "localhost:8000"
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
