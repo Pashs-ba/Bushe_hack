@@ -1,8 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import SimpleRouter
 
-from .views import TestCeleryView
-from .serializers import OrderViewSet, KitchenViewSet, DeliveryManViewSet
+from .views import TestCeleryView, OrderViewSet, KitchenViewSet, DeliveryManViewSet
 
 
 router = SimpleRouter(trailing_slash=False)
