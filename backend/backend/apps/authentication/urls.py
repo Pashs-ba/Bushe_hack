@@ -15,4 +15,6 @@ urlpatterns = [
     #     name="users-detail",
     # ),
     # path("users/delete", views.UserBulkDeleteAPIView.as_view(), name="users-delete"),
+    path("users/create", views.CreateUserAPIView.as_view(), name="users-create"),
+
 ]
