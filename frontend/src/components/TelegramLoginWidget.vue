@@ -4,17 +4,8 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { createUser } from '@/api/services/auth'
-
-export interface TelegramUserData {
-  auth_date: number
-  first_name: string
-  hash: string
-  id: number
-  last_name?: string
-  username: string
-  photo_url?: string
-}
+import { type TelegramUserData } from '@/api/services/auth'
+import { useAuthStore } from '@/stores/auth'
 
 const telegramRef = ref<null | HTMLElement>(null)
 
@@ -25,7 +16,6 @@ declare global {
 }
 
 const telegramBotName = import.meta.env.VITE_APP_TELEGRAM_BOT_NAME
-const apiCallbackURL = import.meta.env.VITE_APP_TELEGRAM_AUTH_CALLBACK_URL
 
 onMounted(() => {
   const script = document.createElement('script')
@@ -42,6 +32,7 @@ onMounted(() => {
 })
 
 const onTelegramAuth = (data: TelegramUserData) => {
-  createUser(data)
+  const authStore = useAuthStore()
+  authStore.loginAction(data)
 }
 </script>

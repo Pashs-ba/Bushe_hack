@@ -28,7 +28,7 @@ class RefreshTokenSerializer(serializers.Serializer):
     refresh = serializers.CharField()
 
 
-class TelegramAuthDataSerializer(serializers.ModelSerializer):
+class CreateUserSerializer(serializers.ModelSerializer):
     """Serializer for authentication data received from Telegram."""
 
     hash = serializers.CharField()
@@ -59,3 +59,10 @@ class TelegramAuthDataSerializer(serializers.ModelSerializer):
         user.set_password("")
         user.save()
         return user
+
+
+class TelegramAuthDataSerializer(CreateUserSerializer):
+    username = serializers.CharField()
+
+    def validate_username(self, val):
+        return val
