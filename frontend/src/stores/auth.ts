@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { LocalData, clearLocalData, getLocalData, setLocalData } from './local'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import router from '@/router'
 import {
   login,
@@ -41,6 +41,12 @@ export const useAuthStore = defineStore('auth', () => {
       router.push('/')
     })
   }
+
+  onMounted(() => {
+    if (user.value === null && access_token) {
+      currentUserAction()
+    }
+  })
 
   return {
     user,

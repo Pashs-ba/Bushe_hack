@@ -18,7 +18,13 @@ export enum AuthAPIURLS {
   REFRESH_TOKEN = 'auth/refresh'
 }
 
-export interface APIUser {}
+export interface APIUser {
+  photo_url: string | null
+  username: string
+  id: number
+  telegram_id: number
+  account_type: number
+}
 
 export interface APITokens {
   access: string

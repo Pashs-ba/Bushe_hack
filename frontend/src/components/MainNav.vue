@@ -7,7 +7,7 @@ const authStore = useAuthStore()
 </script>
 
 <template>
-  <nav id="mainNavbar" class="navbar navbar-expand-lg" data-bs-theme="dark">
+  <nav id="mainNavbar" class="navbar navbar-expand-md" data-bs-theme="dark">
     <div class="container">
       <RouterLink to="/" class="navbar-brand bushe-font d-flex align-items-center">
         <span class="ms-3 fs-3" id="brandName">буше</span>
@@ -23,7 +23,7 @@ const authStore = useAuthStore()
       </button>
 
       <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-lg-0">
           <li class="nav-item">
             <RouterLink to="/" class="nav-link">Новый заказ</RouterLink>
           </li>
