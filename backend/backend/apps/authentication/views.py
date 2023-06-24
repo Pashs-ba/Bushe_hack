@@ -11,7 +11,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
 from .serializers import (
     RefreshTokenSerializer,
-    StudentCreateSerializer,
     UserBulkDeleteSerializer,
     UserSerializer,
 )
@@ -20,7 +19,6 @@ from backend.permissions import IsAdminPermission
 
 
 # TODO: Replace ActivateUserAPIView with frontend page
-
 
 class ActivateUserAPIView(APIView):
     """Activate user account."""
@@ -117,12 +115,6 @@ class LogoutView(APIView):
             raise TokenError(e)
         return Response(status=status.HTTP_205_RESET_CONTENT)
 
-
-class CreateStudentAPIView(generics.CreateAPIView):
-    """Create a new student account."""
-
-    serializer_class = StudentCreateSerializer
-    queryset = User.objects.all()
 
 
 # TODO: CreateAdminAPIView

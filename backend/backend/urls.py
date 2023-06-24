@@ -7,13 +7,6 @@ from django.views.generic import TemplateView
 
 
 urlpatterns = [
-    path("admin-extended/", admin.site.urls),
-    path("api/blog/", include("backend.apps.blog.urls")),
-    path("api/notifications/", include("backend.apps.notifications.urls")),
-    path("api/timetable/", include("backend.apps.timetable.urls")),
-    path("api/", include("backend.apps.homework.urls")),
-    path("api/", include("backend.apps.core.urls")),
-    path("api/", include("backend.apps.minimum.urls")),
     # Djoser & SimpleJWT
     path("api/auth/", include("backend.apps.authentication.urls")),
     path("api/auth/", include("djoser.urls")),

@@ -33,12 +33,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Apps
     "backend.apps.authentication.apps.AuthConfig",
-    "backend.apps.blog.apps.BlogConfig",
-    "backend.apps.core.apps.CoreConfig",
-    "backend.apps.notifications.apps.NotificationsConfig",
-    "backend.apps.timetable.apps.TimetableConfig",
-    "backend.apps.homework.apps.HomeworkConfig",
-    "backend.apps.minimum.apps.MinimumConfig",
     # Third-party apps
     # "whitenoise.runserver_nostatic",
     "corsheaders",
@@ -174,16 +168,6 @@ JWT_AUTH = {
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-
-# Email
-DEFAULT_FROM_EMAIL = config["Email"]["DEFAULT_FROM_EMAIL"]
-EMAIL_HOST = config["Email"]["EMAIL_HOST"]
-EMAIL_PORT = config["Email"]["EMAIL_PORT"]
-EMAIL_HOST_USER = config["Email"]["EMAIL_HOST_USER"]
-EMAIL_HOST_PASSWORD = config["Email"]["EMAIL_HOST_PASSWORD"]
-EMAIL_USE_TLS = config["Email"]["EMAIL_USE_TLS"]
-
-
 # Users
 DJOSER = {
     "SEND_ACTIVATION_EMAIL": True,
@@ -195,11 +179,3 @@ DJOSER = {
 
 PROTOCOL = "http"
 DOMAIN = "localhost:8000"
-
-
-# ------------ DiaryX ------------
-
-DIARYX_SCHOOL_NAME = config["Diaryx"]["SCHOOL_NAME"]
-DIARYX_SCHOOL_FULL_NAME = config["Diaryx"]["SCHOOL_FULL_NAME"]
-DIARYX_PLUGINS = config["Diaryx"]["PLUGINS"]
-DIARYX_SCHOOL_N = config["Diaryx"]["SCHOOL_N"]
