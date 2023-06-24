@@ -1,7 +1,9 @@
 import sqlite3
 import requests
 import geocoder
+from .celery import app
 
+@app.task
 def build_route(db_name, api_key, tablename = 'addresses', column_name = 'address'):
 
 
@@ -32,8 +34,8 @@ def build_route(db_name, api_key, tablename = 'addresses', column_name = 'addres
         return route_url
 
 
-
-def calculate_distance(db_name, api_key, tablename='addresses', column_name='address'):
+@app.task
+def calculate_distance(rowid, db_name, api_key, tablename='addresses', column_name='address'):
 
 
     #connection to BD
