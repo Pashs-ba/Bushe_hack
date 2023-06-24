@@ -1,6 +1,5 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from django.core.mail import send_mail
 from django.db import models
 from django.utils import timezone
 
@@ -11,6 +10,7 @@ from .utils import ACCOUNT_TYPE_CHOICES, UserTypes
 
 class User(AbstractBaseUser, PermissionsMixin):
     """User model."""
+
     account_type = models.IntegerField(
         "Тип аккаунта", default=UserTypes.COURIER, choices=ACCOUNT_TYPE_CHOICES
     )
