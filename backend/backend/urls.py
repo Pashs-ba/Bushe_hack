@@ -10,8 +10,7 @@ urlpatterns = [
     # Djoser & SimpleJWT
     path("api/auth/", include("backend.apps.authentication.urls")),
     path("api/auth/", include("djoser.urls")),
-    path("api/auth/", include("djoser.urls.jwt")),
-    path("/api/", include("backend.apps.core.urls")),
+    path("api/", include("backend.apps.core.urls")),
     path("admin/", admin.site.urls)
 ]
 

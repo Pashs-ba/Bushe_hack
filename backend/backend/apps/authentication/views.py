@@ -1,8 +1,6 @@
 import django_filters
-import requests
 from django.conf import settings
-from django.urls import reverse
-from rest_framework import generics, permissions, response, status, serializers
+from rest_framework import generics, permissions, response, status, views
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
@@ -13,24 +11,10 @@ from .serializers import (
     RefreshTokenSerializer,
     UserBulkDeleteSerializer,
     UserSerializer,
+    TelegramAuthDataSerializer
 )
-from .utils import ACCOUNT_TYPE_CHOICES, UserTypes, verify_telegram_authentication
+from .utils import ACCOUNT_TYPE_CHOICES
 from backend.permissions import IsAdminPermission
-
-
-# TODO: Replace ActivateUserAPIView with frontend page
-
-class ActivateUserAPIView(APIView):
-    """Activate user account."""
-
-    def get(self, request, uid, token):
-        """Activate user account."""
-        payload = {"uid": uid, "token": token}
-        url = "{0}://{1}{2}".format(settings.PROTOCOL, settings.DOMAIN, reverse("user-activation"))
-        response = requests.post(url, data=payload)
-        if response.status_code == 204:
-            return Response({"detail": "Account activated"}, status=status.HTTP_200_OK)
-        return Response(response.json())
 
 
 class ProfileView(generics.RetrieveAPIView):
@@ -116,48 +100,33 @@ class LogoutView(APIView):
         return Response(status=status.HTTP_205_RESET_CONTENT)
 
 
-# TODO: CreateAdminAPIView
+class LoginAPIView(views.APIView):
+    """APIView for user authentication."""
 
+    def get_user(self, telegram_id: int):
+        try:
+            return User.objects.get(telegram_id=telegram_id)
+        except User.DoesNotExist:
+            return None
 
-class CreateUserAPIView(generics.CreateAPIView):
-    """API view for creating new users."""
-
-    class CreateUserSerializer(serializers.ModelSerializer):
-        hash = serializers.CharField()
-        auth_date = serializers.IntegerField()
-        id = serializers.IntegerField()
-
-        class Meta:
-            model = User
-            fields = ["username", "first_name", "last_name",
-                      "photo_url", "id", "auth_date", "hash"]
-            extra_kwargs = {"hash": {"write_only": True}, "auth_date": {
-                "write_only": True}, "id": {"write_only": True}}
-
-        def validate(self, data):
-            verify_telegram_authentication(data)
-            return data
-
-        def create(self, validated_data: dict):
-            """Create a new student."""
-            user = User.objects.create(
-                account_type=UserTypes.COURIER.value,
-                username=validated_data["username"],
-                last_name=validated_data["last_name"],
-                first_name=validated_data["first_name"],
-                photo_url=validated_data["photo_url"],
-                telegram_id=validated_data["id"]
-            )
-            user.set_password("")
-            user.save()
-            return user
-
-    queryset = User.objects.all()
-    serializer_class = CreateUserSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+    def post(self, request):
+        serializer = TelegramAuthDataSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        instance = self.perform_create(serializer)
-        instance_serializer = UserSerializer(instance)
-        return Response(instance_serializer.data)
+
+        telegram_id = serializer.validated_data["id"]
+        user = self.get_user(telegram_id)
+        if user is None:  # Create a new user
+            print("Creating a new user")
+            user = serializer.save()
+        else:
+            print("User already exists")
+        print(user)
+
+        refresh = RefreshToken.for_user(user)
+
+        response_data = {
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        }
+
+        return Response(response_data, status.HTTP_200_OK)

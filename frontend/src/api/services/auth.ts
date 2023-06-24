@@ -14,7 +14,7 @@ export interface APITokens {
 }
 
 export const createUser = async (data: any): Promise<AxiosResponse> => {
-  return await API.noAuthAxios.post('auth/users/create', data)
+  return await API.noAuthAxios.post('auth/login', data)
 }
 
 export const login = (credentials: any): Promise<AxiosResponse<APITokens>> => {
