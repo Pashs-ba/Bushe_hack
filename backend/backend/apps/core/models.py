@@ -18,7 +18,7 @@ class Kitchen(models.Model):
     geotag = models.CharField(max_length=20)
 
     def __str__(self):
-        return self.point_id
+        return str(self.point_id)
 
 
 class DeliveryMan(models.Model):
@@ -26,7 +26,7 @@ class DeliveryMan(models.Model):
     status = models.IntegerField(choices=DELIVERYMAN_TYPE_CHOICES, default=DeliveryManStatus.ready.value)
 
     def __str__(self):
-        return self.delivery_man_id
+        return str(self.delivery_man_id)
 
 
 class Order(models.Model):
@@ -54,4 +54,4 @@ class Order(models.Model):
     delivery_man_id = models.ForeignKey(DeliveryMan, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.order_id
+        return str(self.order_id)
