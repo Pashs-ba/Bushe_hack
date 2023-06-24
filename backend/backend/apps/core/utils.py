@@ -34,8 +34,9 @@ class MultipleValueFilter(Filter):
 class OrderStatus(Enum):
     opened = 1
     cooking = 2
-    on_the_way = 3
-    closed = 4
+    witing_delivery = 3
+    on_the_way = 4
+    closed = 5
 
 
 class DeliveryManStatus(Enum):
@@ -49,10 +50,11 @@ ORDER_TYPE_CHOICES = (
     (OrderStatus.cooking.value, "Готовится"),
     (OrderStatus.on_the_way.value, "В пути"),
     (OrderStatus.closed.value, "Закрыт"),
+    (OrderStatus.witing_delivery.value, "Ждет курьера"),
 )
 
 DELIVERYMAN_TYPE_CHOICES = (
     (DeliveryManStatus.ready.value, "Свободен"),
-    (DeliveryManStatus.busy.value, "В работе"),
-    (DeliveryManStatus.at_home.value, "Дома"),
+    (DeliveryManStatus.busy.value, "Доставляет"),
+    (DeliveryManStatus.at_home.value, "Не на смене"),
 )
