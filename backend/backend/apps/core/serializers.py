@@ -4,6 +4,7 @@ from rest_framework.viewsets import ModelViewSet
 from .models import Order, Kitchen, DeliveryMan
 
 
+
 class OrderSerializer(ModelSerializer):
     class Meta:
         model = Order
