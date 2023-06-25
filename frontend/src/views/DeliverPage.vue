@@ -29,8 +29,8 @@
         </div>
         <div class="text-center">
 
-            <button class="btn btn-success me-5 btn-lg" @click="sucsess_order(orders[0])">Заказ отдан</button>
-            <button class="btn btn-danger btn-lg" @click="">Проблемы с заказом</button>
+            <button class="btn btn-success me-5 mt-3 btn-lg" @click="sucsess_order(orders[0])">Заказ отдан</button>
+            <button class="btn btn-danger btn-lg mt-3" @click="">Проблемы с заказом</button>
         </div>
 
     </div>
