@@ -25,7 +25,10 @@ const authStore = useAuthStore()
       <div class="collapse navbar-collapse" id="navbarContent">
         <ul class="navbar-nav me-auto mb-lg-0">
           <li class="nav-item">
-            <RouterLink to="/" class="nav-link">Новый заказ</RouterLink>
+            <RouterLink to="/new-order" class="nav-link">Новый заказ</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink to="/manager" class="nav-link">заказЫ</RouterLink>
           </li>
         </ul>
 

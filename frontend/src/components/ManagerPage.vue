@@ -11,65 +11,29 @@ const statusOptions = ref([
 
 const ordersStore = useOrdersStore()
 
-ordersStore.addOrder({
-  orderId: '1',
-  restaurantId: '12312',
-  deliveryAddress: 'Ясная поляна',
-  status: 'доставлен'
-})
-ordersStore.addOrder({
-  orderId: '1',
-  restaurantId: '12312',
-  deliveryAddress: 'Приморский проспект',
-  status: 'в обработке'
-})
-const items = ref([{
-  orderId: '1',
-  restaurantId: '12312',
-  deliveryAddress: 'Ясная поляна',
-  status: 'доставлен'
-},
-  {
-    orderId: '1',
-    restaurantId: '12312',
-    deliveryAddress: 'Приморский проспект',
-    status: 'в обработке'
-  },
-  {
-    orderId: '1',
-    restaurantId: '12312',
-    deliveryAddress: 'Приморский проспект',
-    status: 'в обработке'
-  },
-  {
-    orderId: '1',
-    restaurantId: '12312',
-    deliveryAddress: 'Приморский проспект',
-    status: 'в обработке'
-  },
-  {
-    orderId: '1',
-    restaurantId: '12312',
-    deliveryAddress: 'Приморский проспект',
-    status: 'в обработке'
-  },
-  {
-    orderId: '1',
-    restaurantId: '12312',
-    deliveryAddress: 'Приморский проспект',
-    status: 'в обработке'
-  }])
-</script>
+// ordersStore.addOrder({
+//   orderId: '1',
+//   restaurantId: '12312',
+//   deliveryAddress: 'Ясная поляна',
+//   status: 'доставлен'
+// })
+// ordersStore.addOrder({
+//   orderId: '1',
+//   restaurantId: '12312',
+//   deliveryAddress: 'Приморский проспект',
+//   status: 'в обработке'
+// })
 
+</script>
 <template>
-  <div class="list-group">
+  <div style="width: 500px" class="list-group">
     <h>
       Заказы
     </h>
     <li v-for="item in ordersStore.ordersList" class="list-group-item list-group-item-action">
-      {{ item.deliveryAddress}}
+      {{item.deliveryAddress}}
       <FormKit
-          style="max-width:250px;"
+          style="max-width:250px"
           v-model="item.status"
           type="select"
           name="orderStatus"
