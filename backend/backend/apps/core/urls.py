@@ -1,8 +1,8 @@
 from django.urls import include, path
 from rest_framework.routers import SimpleRouter
 
-from .views import TestCeleryView, OrderViewSet, KitchenViewSet, DeliveryManViewSet
-
+from .views import TestCeleryView, OrderViewSet, KitchenViewSet
+from backend.apps.authentication.views import DeliveryManViewSet
 
 router = SimpleRouter(trailing_slash=False)
 router.register("orders", OrderViewSet)

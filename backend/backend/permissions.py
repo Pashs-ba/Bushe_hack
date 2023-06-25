@@ -3,12 +3,17 @@ from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_MET
 from backend.apps.authentication.utils import UserTypes
 
 
-class IsAdminPermission(BasePermission):
-    """Allows access only to admin users."""
-
+class IsManagerPermission(BasePermission):
     def has_permission(self, request, view):
-        """Check if the user is an admin."""
-        return request.user.account_type in (0, 1)
+        """Check if the user is a manager."""
+        return request.user.account_type == UserTypes.MANAGER.value
+
+
+class IsDeliveryManPermission(BasePermission):
+    def has_permission(self, request, view):
+        """Check if the user is a delivery man."""
+        return request.user.account_type == UserTypes.COURIER.value
+
 
 class IsAuthenticatedReadonlyPermission(IsAuthenticated):
     """Allows access only to authenticated users if request method is safe."""

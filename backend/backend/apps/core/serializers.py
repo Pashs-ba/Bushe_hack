@@ -4,7 +4,6 @@ from rest_framework.viewsets import ModelViewSet
 from .models import Order, Kitchen, DeliveryMan
 
 
-
 class OrderSerializer(ModelSerializer):
     class Meta:
         model = Order
@@ -17,7 +16,4 @@ class KitchenSerializer(ModelSerializer):
         fields = ["geotag"]
 
 
-class DeliveryManSerializer(ModelSerializer):
-    class Meta:
-        model = DeliveryMan
-        fields = ["user", "status"]
+
