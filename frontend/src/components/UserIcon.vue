@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { User } from '@/utils/auth'
+import type { APIUser } from '@/api/services/auth';
 import { toSvg } from 'jdenticon'
 import { computed } from 'vue'
 
-const props = defineProps<{ size: string; user: User }>()
+const props = defineProps<{ size: string; user: APIUser }>()
 
 const jdenticon = computed(() => {
   if (props.user.photo_url) return null

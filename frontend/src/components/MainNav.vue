@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
-import TelegramLoginWidget from './TelegramLoginWidget.vue'
 import UserIcon from './UserIcon.vue'
 
 const authStore = useAuthStore()
@@ -28,7 +27,7 @@ const authStore = useAuthStore()
             <RouterLink to="/new-order" class="nav-link">Новый заказ</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/manager" class="nav-link">заказЫ</RouterLink>
+            <RouterLink to="/manager" class="nav-link">Заказы</RouterLink>
           </li>
         </ul>
 
@@ -43,13 +42,13 @@ const authStore = useAuthStore()
               <li>
                 <RouterLink class="dropdown-item" to="/profile">
                   <i class="bi-person me-2"></i>
-                  <span>My profile</span>
+                  <span>Мой аккаунт</span>
                 </RouterLink>
               </li>
               <li>
                 <a class="dropdown-item" href="#" @click.prevent="authStore.logoutAction">
                   <i class="bi-box-arrow-right me-2"></i>
-                  <span>Log out</span>
+                  <span>Выход</span>
                 </a>
               </li>
             </ul>

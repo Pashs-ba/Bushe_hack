@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import CurrentRouteInfo from '@/components/CurrentRouteInfo.vue'
 import LoginCard from '@/components/LoginCard.vue'
-import YandexMapView, { type RouteInfo } from '@/components/YandexMapView.vue'
+import ManagerPage from '@/components/ManagerPage.vue'
 import { useAuthStore } from '@/stores/auth'
-import { ref } from 'vue'
 
 const authStore = useAuthStore()
-
-const orders = ['Большой проспект П.С., 44', 'Большой проспект В.О., 20']
-
-const currentRoute = ref<RouteInfo | null>(null)
 </script>
 
 <template>
@@ -20,8 +14,9 @@ const currentRoute = ref<RouteInfo | null>(null)
       </div>
     </div>
     <div v-else>
-      <YandexMapView :orders="orders" @update="(val) => (currentRoute = val)" />
-      <CurrentRouteInfo :route="currentRoute" />
+      <div v-if="authStore.user.account_type === 2">
+        <ManagerPage />
+      </div>
     </div>
   </main>
 </template>
