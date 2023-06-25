@@ -11,7 +11,7 @@ class Kitchen(models.Model):
     geotag = models.CharField(max_length=20)
 
     def __str__(self):
-        return str(self.point_id)
+        return str(self.geotag)
 
 
 class DeliveryMan(models.Model):
@@ -45,4 +45,4 @@ class Order(models.Model):
     number_in_queue = models.IntegerField(null=True,blank=True)
 
     def __str__(self):
-        return str(self.order_id)
+        return str(self.end_point)

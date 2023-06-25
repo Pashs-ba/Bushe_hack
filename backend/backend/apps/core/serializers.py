@@ -8,7 +8,7 @@ from .models import Order, Kitchen, DeliveryMan
 class OrderSerializer(ModelSerializer):
     class Meta:
         model = Order
-        fields = ["__all__"]
+        fields = "__all__"
 
 
 class KitchenSerializer(ModelSerializer):
