@@ -141,5 +141,5 @@ class DeliveryManViewSet(viewsets.ModelViewSet):
 
 
 class ManagerViewSet(viewsets.ModelViewSet):
-    queryset = DeliveryMan.objects.all()
+    queryset = Manager.objects.all()
     serializer_class = ManagerSerializer
