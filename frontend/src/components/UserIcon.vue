@@ -1,4 +1,4 @@
-<script setup lang="ts">
+  <script setup lang="ts">
 import type { User } from '@/utils/auth'
 import { toSvg } from 'jdenticon'
 import { computed } from 'vue'
