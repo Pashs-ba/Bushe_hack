@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "dev-pashs": "vite --port=8080",
     "dev": "vite",
     "build": "run-p type-check build-only",
     "preview": "vite preview",

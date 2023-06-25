@@ -8,7 +8,7 @@ from backend.apps.authentication.models import User
 from .utils import OrderStatus, ORDER_TYPE_CHOICES, DeliveryManStatus, DELIVERYMAN_TYPE_CHOICES
 
 class Kitchen(models.Model):
-    geotag = models.CharField(max_length=20)
+    geotag = models.CharField(max_length=200)
 
     def __str__(self):
         return str(self.geotag)
