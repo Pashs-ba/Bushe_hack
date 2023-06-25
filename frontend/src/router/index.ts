@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import ManagerPage from "@/components/ManagerPage.vue";
-import NewOrderPage from "@/components/NewOrderPage.vue";
+import ManagerPage from "@/views/ManagerPage.vue";
+import NewOrderPage from "@/views/NewOrderPage.vue";
 import DeliverPage from "../views/DeliverPage.vue";
 
 const router = createRouter({
@@ -19,7 +19,7 @@ const router = createRouter({
     },
     {
       path: '/new-order',
-      name: 'delivery club',
+      name: 'order',
       component:NewOrderPage
     },
     {

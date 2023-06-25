@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
+import {useAuthStore} from '@/stores/auth'
 import TelegramLoginWidget from './TelegramLoginWidget.vue'
 import UserIcon from './UserIcon.vue'
+import ButtonToContactManager from "@/components/ButtonToContactManager.vue";
 
 const authStore = useAuthStore()
 </script>
@@ -14,29 +15,23 @@ const authStore = useAuthStore()
       </RouterLink>
 
       <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarContent"
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="navbar-nav me-auto mb-lg-0">
-          <li class="nav-item">
-            <RouterLink to="/new-order" class="nav-link">Новый заказ</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink to="/manager" class="nav-link">заказЫ</RouterLink>
-          </li>
-        </ul>
-
+      <div class="collapse navbar-collapse align-self-center" id="navbarContent">
+<!--        <div class="">-->
+<!--          <ButtonToContactManager/>-->
+<!--        </div>-->
         <div v-if="authStore.user" class="d-flex align-items-center">
           <div class="dropdown">
             <div data-bs-toggle="dropdown" class="d-flex flex-row align-items-center">
               <div class="me-2 fw-bold">{{ authStore.user.username }}</div>
-              <UserIcon :user="authStore.user" size="40px" />
+              <UserIcon :user="authStore.user" size="40px"/>
             </div>
 
             <ul class="dropdown-menu">
