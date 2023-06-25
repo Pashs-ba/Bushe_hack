@@ -7,6 +7,8 @@ from django.utils import timezone
 from .manager import UserManager
 from .utils import ACCOUNT_TYPE_CHOICES, UserTypes
 
+from backend.apps.core.utils import OrderStatus, ORDER_TYPE_CHOICES, DeliveryManStatus, DELIVERYMAN_TYPE_CHOICES
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     """User model."""
@@ -43,22 +45,17 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.get_username()
 
 
-class Admin(models.Model):
-    """
-    Options for admin accounts.
+class Manager(models.Model):
+    user = models.OneToOneField("User", on_delete=models.CASCADE)
+    kitchen_id = models.ForeignKey("core.Kitchen", on_delete=models.CASCADE)
 
-    As well as this model is connected with `User` through one2one relationship,
-    this model can also be used to mention all admin users.
-    """
+    def __str__(self):
+        return str(self.user)
 
-    account = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name="Пользователь",
-        primary_key=True,
-        related_name="options_admin",
-    )
 
-    class Meta:
-        verbose_name = "Параметры администратора"
-        verbose_name_plural = "Параметры администраторов"
+class DeliveryMan(models.Model):
+    user = models.OneToOneField("User", on_delete=models.CASCADE)
+    status = models.IntegerField(choices=DELIVERYMAN_TYPE_CHOICES, default=DeliveryManStatus.ready.value)
+
+    def __str__(self):
+        return str(self.user)

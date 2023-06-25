@@ -1,21 +1,24 @@
 import django_filters
 from django.conf import settings
-from rest_framework import generics, permissions, response, status, views
+from rest_framework import generics, permissions, response, status, views, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import User
+from .models import User, Manager, DeliveryMan
 from .serializers import (
     RefreshTokenSerializer,
     UserBulkDeleteSerializer,
     UserSerializer,
     TelegramAuthDataSerializer,
-    CreateUserSerializer
+    CreateUserSerializer,
+    DeliveryManSerializer,
+    ManagerSerializer,
 )
 from .utils import ACCOUNT_TYPE_CHOICES
-from backend.permissions import IsAdminPermission
+# from backend.permissions import IsAdminPermission
+
 
 
 class ProfileView(generics.RetrieveAPIView):
@@ -70,7 +73,7 @@ class UserBulkDeleteAPIView(generics.DestroyAPIView):
 
     serializer_class = UserBulkDeleteSerializer
     queryset = User.objects.all()
-    permission_classes = [IsAdminPermission]
+    # permission_classes = [IsAdminPermission]
 
     def destroy(self, request, *args, **kwargs):
         """Delete multiple users."""
@@ -129,3 +132,14 @@ class LoginAPIView(views.APIView):
         }
 
         return Response(response_data, status.HTTP_200_OK)
+
+
+class DeliveryManViewSet(viewsets.ModelViewSet):
+    queryset = DeliveryMan.objects.all()
+    serializer_class = DeliveryManSerializer
+    # permission_classes = [IsAdminPermission | IsDeliveryManPermission]
+
+
+class ManagerViewSet(viewsets.ModelViewSet):
+    queryset = Manager.objects.all()
+    serializer_class = ManagerSerializer

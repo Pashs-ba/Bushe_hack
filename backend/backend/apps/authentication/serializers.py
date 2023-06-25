@@ -3,16 +3,34 @@ from rest_framework import serializers
 from .utils import UserTypes, verify_telegram_authentication
 from .models import User
 
+from backend.apps.authentication.models import DeliveryMan, Manager
+
+
+class DeliveryManSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DeliveryMan
+        fields = ["status"]
+
+
+class ManagerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DeliveryMan
+        fields = ["kitchen_id"]
+
+
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for `User` model."""
+    options_manager = ManagerSerializer()
+    options_deliveryman = DeliveryManSerializer()
 
     class Meta:
         model = User
         fields = [
             "account_type", "first_name", "last_name",
             "username", "id", "photo_url", "is_active",
-            "last_login", "date_joined", "is_admin"
+            "last_login", "date_joined", "is_admin",
+            "options_manager", "options_deliveryman"
         ]
 
         read_only_fields = [
@@ -66,3 +84,5 @@ class TelegramAuthDataSerializer(CreateUserSerializer):
 
     def validate_username(self, val):
         return val
+
+

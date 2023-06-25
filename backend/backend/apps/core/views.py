@@ -4,8 +4,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Order, Kitchen, DeliveryMan
+from .models import Order, Kitchen
 from .serializers import *
+
+# from backend.permissions import IsAdminPermission, IsDeliveryManPermission
 
 
 class TestCeleryView(APIView):
@@ -15,6 +17,9 @@ class TestCeleryView(APIView):
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+    # permission_classes = [IsAdminPermission | IsDeliveryManPermission]
+
     def update(self, request, *args, **kwargs):
         item = self.get_object()
         serializer = self.get_serializer(item, data=request.data, partial=True)
@@ -27,7 +32,6 @@ class OrderViewSet(ModelViewSet):
 class KitchenViewSet(ModelViewSet):
     queryset = Kitchen.objects.all()
     serializer_class = KitchenSerializer
+    # permission_classes = [IsAdminPermission | IsDeliveryManPermission]
 
-class DeliveryManViewSet(ModelViewSet):
-    queryset = DeliveryMan.objects.all()
-    serializer_class = DeliveryManSerializer
+

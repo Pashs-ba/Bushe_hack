@@ -2,26 +2,17 @@ from __future__ import annotations
 
 from django.db import models
 from django.utils.timezone import datetime
-from backend.apps.authentication.models import User
-
-
-from .utils import OrderStatus, ORDER_TYPE_CHOICES, DeliveryManStatus, DELIVERYMAN_TYPE_CHOICES
+from backend.apps.authentication.models import DeliveryMan
+from .utils import OrderStatus, ORDER_TYPE_CHOICES
 
 
 class Kitchen(models.Model):
-    geotag = models.CharField(max_length=20)
+    geotag = models.CharField(max_length=200)
 
     def __str__(self):
         return str(self.geotag)
 
 
-class DeliveryMan(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.IntegerField(choices=DELIVERYMAN_TYPE_CHOICES,
-                                 default=DeliveryManStatus.ready.value)
-
-    def __str__(self):
-        return str(self.user)
 
 
 class Order(models.Model):
@@ -44,8 +35,7 @@ class Order(models.Model):
 
     # hidden from user ?
 
-    delivery_man_id = models.ForeignKey(
-        DeliveryMan, on_delete=models.CASCADE, null=True, blank=True)
+    delivery_man_id = models.ForeignKey(DeliveryMan, on_delete=models.CASCADE, null=True, blank=True)
     number_in_queue = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
