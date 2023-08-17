@@ -46,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Manager(models.Model):
-    user = models.OneToOneField("User", on_delete=models.CASCADE)
+    user = models.OneToOneField("User", on_delete=models.CASCADE, related_name="options_manager")
     kitchen_id = models.ForeignKey("core.Kitchen", on_delete=models.CASCADE)
 
     def __str__(self):
@@ -54,8 +54,10 @@ class Manager(models.Model):
 
 
 class DeliveryMan(models.Model):
-    user = models.OneToOneField("User", on_delete=models.CASCADE)
-    status = models.IntegerField(choices=DELIVERYMAN_TYPE_CHOICES, default=DeliveryManStatus.ready.value)
+    user = models.OneToOneField("User", on_delete=models.CASCADE,
+                                related_name="options_deliveryman")
+    status = models.IntegerField(choices=DELIVERYMAN_TYPE_CHOICES,
+                                 default=DeliveryManStatus.ready.value)
 
     def __str__(self):
         return str(self.user)

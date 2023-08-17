@@ -23,10 +23,7 @@ const authStore = useAuthStore()
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse align-self-center" id="navbarContent">
-<!--        <div class="">-->
-<!--          <ButtonToContactManager/>-->
-<!--        </div>-->
+      <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
         <div v-if="authStore.user" class="d-flex align-items-center">
           <div class="dropdown">
             <div data-bs-toggle="dropdown" class="d-flex flex-row align-items-center">
